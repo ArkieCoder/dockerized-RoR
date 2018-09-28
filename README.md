@@ -57,6 +57,6 @@ Each programming language or framework has its own terminology for shared librar
 * Edit `docker-compose.yml` so that the Microsoft SQL Server and Oracle usernames, passwords, etc. are correct.
 * Bring the backend project up with `./up`.  Once all the instructions are followed, the backend will run on your local machine at port 3000.
 * After configuration, you should be able to see the following:
-** http://localhost:3000/admin - a backend administration interface for the data
-** http://localhost:3000/ - the Rails welcome page
+  * http://localhost:3000/admin - a backend administration interface for the data
+  * http://localhost:3000/ - the Rails welcome page
 * Notice that when you edit any code for the Ruby on Rails container, Rails will restart to reflect your changes.  Also, if you have any tests defined for your code, they will run before Rails is brought back up.
