@@ -1,0 +1,25 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    environment:
+      - MSSQL_USERNAME=XXXXXX
+      - MSSQL_PASSWORD=XXXXXX
+      - MSSQL_DEV_HOST=XXXXXXXXXXXXXXX
+      - MSSQL_PROD_HOST=XXXXXXXXXXXXXXXXX
+      - MSSQL_DB=XXXXXXXXXXXXXX
+      - ORACLE_USERNAME=XXXXXX
+      - ORACLE_PASSWORD=XXXXXX
+      - ORACLE_TST_DB=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - ORACLE_PROD_DB=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - ORACLE_SCHEMA=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    volumes:
+      - .:/usr/src/code_runner
+    command: /usr/src/code_runner/app_init 

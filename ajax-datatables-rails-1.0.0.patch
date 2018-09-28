@@ -1,0 +1,22 @@
+diff -uNr ajax-datatables-rails-1.0.0-orig/lib/ajax-datatables-rails/datatable/column.rb ajax-datatables-rails-1.0.0/lib/ajax-datatables-rails/datatable/column.rb
+--- ajax-datatables-rails-1.0.0-orig/lib/ajax-datatables-rails/datatable/column.rb	2018-09-25 19:31:14.336965748 +0000
++++ ajax-datatables-rails-1.0.0/lib/ajax-datatables-rails/datatable/column.rb	2018-09-25 19:32:44.445947455 +0000
+@@ -8,6 +8,7 @@
+       TYPE_CAST_MYSQL   = 'CHAR'
+       TYPE_CAST_SQLITE  = 'TEXT'
+       TYPE_CAST_ORACLE  = 'VARCHAR2(4000)'
++      TYPE_CAST_SQLSERVER  = 'VARCHAR(4000)'
+ 
+       DB_ADAPTER_TYPE_CAST = {
+         mysql:          TYPE_CAST_MYSQL,
+@@ -15,7 +16,8 @@
+         sqlite:         TYPE_CAST_SQLITE,
+         sqlite3:        TYPE_CAST_SQLITE,
+         oracle:         TYPE_CAST_ORACLE,
+-        oracleenhanced: TYPE_CAST_ORACLE
++        oracleenhanced: TYPE_CAST_ORACLE,
++        sqlserver:      TYPE_CAST_SQLSERVER
+       }.freeze
+ 
+       attr_reader :datatable, :index, :options
+

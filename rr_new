@@ -1,0 +1,46 @@
+#!/bin/bash
+
+cat Gemfile.guardgems >> Gemfile
+./build
+./up -d
+./rr new . --force --database=sqlite3
+cat Gemfile.postrrnew >> Gemfile
+cat Gemfile.guardgems >> Gemfile
+./down
+./build
+./up -d
+./aa_inst
+./set_env
+
+echo -n "Do you want to run database migrations for ActiveAdmin? [Y/n] "
+read ans
+if [ "$ans" == "n" ]
+then
+  echo "Not running migrations now"
+else
+  echo "Running migrations for ActiveAdmin:"
+  ./rr db:migrate RAILS_ENV=development
+fi
+
+echo -n "Do you want to seed database with ActiveAdmin data? [Y/n] "
+read ans
+if [ "$ans" == "n" ]
+then
+  echo "Not seeding database now"
+else
+  echo "Seeding database with ActiveAdmin data:"
+  ./rr db:seed RAILS_ENV=development
+fi
+./rr generate datatable:config
+./down
+rm -f OFF
+
+mkdir -p app/inputs
+mv nchar_input.rb uuid_input.rb app/inputs
+
+mkdir -p app/controllers/concerns
+mv response.rb app/controllers/concerns
+
+mv cors.rb config/initializers
+
+more rr_new.README

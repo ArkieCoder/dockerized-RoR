@@ -1,0 +1,6 @@
+#!/bin/bash -x
+
+./set_env
+docker-compose exec api bundle exec rails "$@"
+rm -f .env
+

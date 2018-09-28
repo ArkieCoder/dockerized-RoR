@@ -1,0 +1,42 @@
+TIPS FOR CREATING AN API 
+
+Given a functioning Rails model, it's a trivial process to serve that up via a RESTful API.
+
+* Generate controllers
+  $  ./rr g controller <PluralCapNameOfClassInModel> ## without angle brackets, of course
+
+* Edit controllers
+  See report_layouts_controller.rb and report_indices_controller.rb for examples
+
+* Edit config/routes.rb
+  Pass a comma-delimited list of symbols representing controllers to the resources method:
+
+    resources :report_indices, :report_layouts
+
+* If you're planning on having ID parameters with dots (.) in them,
+  which sometimes happens when dealing with Oracle databases, enclose
+  your entire route block (after the devise_for line) in the following:
+  scope format: false, constraints: { id: /[^\/]+/ } do
+    ...
+  end
+
+  This will prevent the part of the ID after the period from being
+  interpreted as a Rails format.
+
+* Edit controllers/application_controller.rb
+  Add the 'Response' concern by adding this line as the last line before 'end':
+
+    include Response
+
+  This will give the controllers access to the json_response method which will be used
+  to return JSON to the client.
+
+* Be sure to exclude columns which are large, and consider adding protections against API
+  users pulling back too much data at once.
+
+* You can test your API with curl:
+
+  $ curl -X GET http://localhost:3000/<route>      # the 'index' method in your controller
+  $ curl -X GET http://localhost:3000/<route>/:id  # the 'show' method
+
+More info here - https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-one

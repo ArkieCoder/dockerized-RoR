@@ -1,0 +1,19 @@
+#!/bin/bash -x
+
+if [ -r "OFF" ]
+then
+  sleep infinity
+else
+  rm -f tmp/pids/server.pid
+  if [ -r "/var/tmp/Gemfile" ]
+  then
+    cp /var/tmp/Gemfile* .
+    rm -f /var/tmp/Gemfile*
+  fi
+  if [ -r "/var/tmp/Guardfile" ]
+  then
+    cp /var/tmp/Guardfile .
+    rm -f /var/tmp/Guardfile
+  fi
+  bundle exec guard -i
+fi

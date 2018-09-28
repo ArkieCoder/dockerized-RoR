@@ -1,0 +1,9 @@
+#!/bin/bash -x
+
+useful_lines=`grep -v "^#" Guardfile | grep -v "^ *$" | wc -l`
+if [ "$useful_lines" == "0" ]
+then
+  bundle exec guard init livereload
+  bundle exec guard init minitest
+  bundle exec guard init rails
+fi

@@ -1,0 +1,64 @@
+
+So you've created a new RoR application with ActiveAdmin support for
+viewing MSSQL databases.  Bully for you.  There are some things to be
+aware of:
+
+* We are using the 'guard' gem to detect updates.  After you bring up
+  your app for the first time using ./up, you may want to edit the
+  Guardfile as follows:
+    - in the 'guard :minitest' section, comment out what is not
+      commented, and uncomment the 'Rails 4' section
+    - copy the first line of the 'Rails 4' section, and add it to the
+      end of the "guard 'rails'" section
+    - between "guard 'rails'" and 'do', add a comma followed by
+      "host: '0.0.0.0'", otherwise things won't be visible outside
+      the docker container
+* If you have an existing rails model you'd like to manipulate with
+  ActiveAdmin, put it in app/models.  Make sure that if there are any
+  outside database connections that they are not global, otherwise
+  ActiveAdmin will try to use them for authentication, and you
+  probably don't want that.  By default, authentication is done
+  using the sqllite3 file-based database.
+* We are using the ajax-datatables-rails gem to ease interoperability
+  with Datatables.net in the front end.  You'll need to edit config/
+  initializers/ajax_datatables_rails.rb and follow the instructions
+  there to tell it about your database adapter.  If you are creating
+  an app using models that live in databases with different drivers
+  (e.g. MSSQL and Oracle), you'll need to copy the contents of
+  config/initializers/ajax_datatables_rails.rb into the class created
+  in the next step, and then follow the instructions to tell it about
+  your database adapter in that file.  Alternately, look at examples/
+  report_index_datatable.rb in the get_model method to see how to
+  dynamically set your database adapter based on what the model is
+  already using.
+* After your adapter is configured, you'll need to generate a datatables
+  class:
+  $ ./rr generate datatable <UpperCaseSingular>
+  Of course, use a valid upper case singular class name from a model
+  in the project without the angle brackets.
+* See examples/report_index_datatable.rb for guidance on configuring
+  the integration with datatables.
+* You can register a model with ActiveAdmin by running the following
+  command within the container:
+    rails g active_admin:resource <Class to register>
+  ... of course replacing <Class to register> with your class name.
+  This will create app/admin/<pluralized underscored class name>.rb
+  which can be edited to your tastes.
+* In order for the file created in the above step to be able to see
+  your class, you'll need to put a line like this at the top of that
+  file:
+    require './app/models/<file with models>.rb'
+* Additionally, you will want to be conscientious about what attributes
+  you want to be filterable.  ActiveAdmin will try to create filters
+  for every column, which can obviously result in long rendering times
+  for models that have lots of associations.  adding a line like so:
+    filter :field_name
+  after the 'ActiveAdmin.register' line in the aforementioned file.
+  This 'filter' method takes a list of values, so you can (cautiously)
+  add items as you see fit.
+* Assuming everything goes well, you'll be able to see the results
+  of the development environment at http://localhost:3000/admin/. 
+  The default username/password are admin@example.com/password.
+
+==> Be sure to READ api.README to discover how to turn your Rails model
+    into a function RESTful API

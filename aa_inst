@@ -1,0 +1,6 @@
+#!/bin/bash -x
+
+./set_env
+docker-compose exec api bundle install
+docker-compose exec api bundle exec rails generate active_admin:install
+rm -f .env

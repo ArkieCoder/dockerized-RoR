@@ -1,0 +1,5 @@
+#!/bin/bash -x
+
+./set_env
+docker-compose up "$@"
+rm -f .env
