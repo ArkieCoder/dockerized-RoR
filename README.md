@@ -60,3 +60,7 @@ Each programming language or framework has its own terminology for shared librar
   * http://localhost:3000/admin - a backend administration interface for the data
   * http://localhost:3000/ - the Rails welcome page
 * Notice that when you edit any code for the Ruby on Rails container, Rails will restart to reflect your changes.  Also, if you have any tests defined for your code, they will run before Rails is brought back up.
+
+## Building A Frontend ##
+* You can use the companion project to this one, [dockerized-CoreUIReact](https://github.com/ArkieCoder/dockerized-CoreUIReact/), or feel free to create a compatible frontend project
+* Once both projects are up on your local machine, you should be able to initiate requests to the backend using the dynamic Datatables part of the frontend, assuming you have configured your database values correctly in `docker-compose.yml`, and configured the Datatables themselves appropriately by pointing them to the endpoints you have created in the backend.  Then, you should be able to see the results in the frontend.
